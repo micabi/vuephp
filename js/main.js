@@ -8,7 +8,9 @@ new Vue({
       country: '',
       city: '',
       job: '',
-      contacts: []
+      contacts: [
+        // {"id":"1","name":"David","email":"david@example.com","city":"UK","country":"London","job":"Designer"}
+      ]
     }
   },
   mounted() {
@@ -19,10 +21,11 @@ new Vue({
       console.log('create!');
     },
     getContacts: function(){
-      axios.get('./contacts.php')
+      axios.get('contacts.php')
       .then((response) => {
+        console.log(response.data);
         this.contacts = response.data;
-        console.log(this.contacts);
+        // console.log(this.contacts[0].id);
       })
       .catch((error) => {
         console.log(error);

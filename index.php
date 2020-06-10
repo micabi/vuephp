@@ -22,7 +22,7 @@
               <th>City</th>
               <th>Job</th>
             </tr>
-            <tr v-for="contact in contacts" v-bind:key="contact.id">
+            <tr v-for="contact in contacts" v-bind:key="contact.name">
               <td>{{ contact.name }}</td>
               <td>{{ contact.email }}</td>
               <td>{{ contact.country }}</td>

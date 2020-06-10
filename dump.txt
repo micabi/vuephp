@@ -1,0 +1,8 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE contacts(id integer primary key autoincrement unique not null,name text,email text,city text,country text,job text);
+INSERT INTO contacts VALUES(1,'David','david@example.com','UK','London','Designer');
+INSERT INTO contacts VALUES(2,'Wataru','adachi@ueda78.com','Japan','Nagoya','developer');
+DELETE FROM sqlite_sequence;
+INSERT INTO sqlite_sequence VALUES('contacts',2);
+COMMIT;
