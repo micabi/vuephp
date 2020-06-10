@@ -22,16 +22,16 @@
               <th>City</th>
               <th>Job</th>
             </tr>
-            <tr v-for="contact in contacts">
-              <td>{{contact.name}}</td>
-              <td>{{contact.email}}</td>
-              <td>{{contact.country}}</td>
-              <td>{{contact.city}}</td>
-              <td>{{contact.job}}</td>
+            <tr v-for="contact in contacts" v-bind:key="contact.id">
+              <td>{{ contact.name }}</td>
+              <td>{{ contact.email }}</td>
+              <td>{{ contact.country }}</td>
+              <td>{{ contact.city }}</td>
+              <td>{{ contact.job }}</td>
             </tr>
-          </table><!-- /.table -->
+          </table>
 
-          <form action="">
+          <form>
             <label for="name">Name:<input type="text" name="name" id="name" v-model="name"></label><br>
             <label for="email">Email:<input type="text" name="email" id="email" v-model="email"></label><br>
             <label for="country">Country:<input type="text" name="country" id="country" v-model="country"></label><br>

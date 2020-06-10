@@ -2,23 +2,31 @@ new Vue({
   el: '#app',
   data() {
     return {
-      name: 'David',
-      email: 'aa@aaa.aa',
-      country: 'UK',
-      city: 'London',
-      job: 'Designer',
+      // id: 0,
+      name: '',
+      email: '',
+      country: '',
+      city: '',
+      job: '',
       contacts: []
     }
   },
   mounted() {
-    this.getContact();
+    this.getContacts();
   },
   methods: {
     createContact: function(){
       console.log('create!');
     },
-    getContact: function(){
-      console.log('get!');
+    getContacts: function(){
+      axios.get('./contacts.php')
+      .then((response) => {
+        this.contacts = response.data;
+        console.log(this.contacts);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     }
   }
 
