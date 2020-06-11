@@ -22,7 +22,7 @@
               <th>City</th>
               <th>Job</th>
             </tr>
-            <tr v-for="contact in contacts" v-bind:key="contact.name">
+            <tr v-for="contact in contacts" v-bind:key="contact.id">
               <td>{{ contact.name }}</td>
               <td>{{ contact.email }}</td>
               <td>{{ contact.country }}</td>
@@ -31,13 +31,13 @@
             </tr>
           </table>
 
-          <form>
+          <form method="post" action="">
             <label for="name">Name:<input type="text" name="name" id="name" v-model="name"></label><br>
             <label for="email">Email:<input type="text" name="email" id="email" v-model="email"></label><br>
             <label for="country">Country:<input type="text" name="country" id="country" v-model="country"></label><br>
             <label for="city">City:<input type="text" name="city" id="city" v-model="city"></label><br>
             <label for="job">Job:<input type="text" name="job" id="job" v-model="job"></label><br>
-            <button class="btn btn-primary" v-on:click="createContact()">Add</button>
+            <button class="btn btn-primary" v-on:click="postContact()">Add</button>
           </form>
         </div><!-- /.col-md-12 -->
       </div><!-- /.row -->
