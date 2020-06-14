@@ -14,22 +14,29 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <table class="table">
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Country</th>
-              <th>City</th>
-              <th>Job</th>
-            </tr>
-            <tr v-for="contact in contacts" v-bind:key="contact.id">
-              <td>{{ contact.name }}</td>
-              <td>{{ contact.email }}</td>
-              <td>{{ contact.country }}</td>
-              <td>{{ contact.city }}</td>
-              <td>{{ contact.job }}</td>
-            </tr>
-          </table>
+          <form action="edit.php" method="get">
+            <table class="table">
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Country</th>
+                <th>City</th>
+                <th>Job</th>
+                <th>Edit</th>
+              </tr>
+              <tr v-for="contact in contacts" v-bind:key="contact.id">
+                <td>{{ contact.name }}</td>
+                <td>{{ contact.email }}</td>
+                <td>{{ contact.country }}</td>
+                <td>{{ contact.city }}</td>
+                <td>{{ contact.job }}</td>
+                <td>
+                  <button class="btn btn-success" v-on:click="getId(contact.id)">Edit</button>
+                </td>
+              </tr>
+            </table>
+            <input type="hidden" name="id" v-bind:value="setId()">
+          </form>
 
           <form method="post" action="">
             <label for="name">Name:<input type="text" name="name" id="name" v-model="name"></label><br>

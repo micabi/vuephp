@@ -10,7 +10,8 @@ new Vue({
       job: '',
       contacts: [
         // {"id":"1","name":"David","email":"david@example.com","city":"UK","country":"London","job":"Designer"}
-      ]
+      ],
+      selectedId: ''
     }
   },
   mounted() {
@@ -62,6 +63,12 @@ new Vue({
         .catch((error) => {
           console.log(error);
         });
+    },
+    getId: function(id){
+      this.selectedId = id;
+    },
+    setId: function(){
+      return this.selectedId;
     }
   }
 
