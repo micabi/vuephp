@@ -2,7 +2,7 @@ new Vue({
   el: '#app',
   data() {
     return {
-      // id: 0,
+      id: 0,
       name: '',
       email: '',
       country: '',
@@ -10,14 +10,14 @@ new Vue({
       job: '',
       contacts: [
         // {"id":"1","name":"David","email":"david@example.com","city":"UK","country":"London","job":"Designer"}
-      ],
-      selectedId: ''
+      ]
     }
   },
   mounted() {
     this.getContacts();
   },
   methods: {
+    // 一覧取得
     getContacts: function () {
       axios.get('contacts.php')
         .then((response) => {
@@ -29,6 +29,7 @@ new Vue({
           console.log(error);
         });
     },
+    // 新規追加
     postContact: function () {
 
       let formData = new FormData();
@@ -38,7 +39,7 @@ new Vue({
       formData.append('city', this.city);
       formData.append('job', this.job);
 
-      let contact = {};
+      let contact = {}; // 1つ1つのデータ
       formData.forEach((key, value) => {
         contact[key] = value;
       });
@@ -54,7 +55,7 @@ new Vue({
         .then((response) => {
           console.log(response);
           this.contacts.push(contact);
-          this.name = '';
+          this.name = ''; // 空にする
           this.email = '';
           this.country = '';
           this.city = '';
@@ -64,11 +65,17 @@ new Vue({
           console.log(error);
         });
     },
+    // 更新
     getId: function(id){
-      this.selectedId = id;
+      this.id = id;
+      // 取得したidのname,email...をセットする
+      // 何番目のインデックスに保存されたcontactか
+      // axios.get() // どこから?
+      //   .then()
+      //   .catch();
     },
     setId: function(){
-      return this.selectedId;
+      return this.id;
     }
   }
 
