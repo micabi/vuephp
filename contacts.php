@@ -47,6 +47,9 @@ try {
         break;
 
         case 'POST':
+            $received_data = json_decode(file_get_contents("php://input"));
+            if($received_data->action === 'insert'){
+
             // POSTされてきた値を変数に代入
             $name = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
             $email = htmlspecialchars($_POST["email"], ENT_QUOTES, 'UTF-8');
@@ -73,6 +76,7 @@ try {
 
             $pdo = null;
             // 処理
+        }
         break;
     }
 } catch (PDOException $Exception) {

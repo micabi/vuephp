@@ -80,11 +80,10 @@
                 <td>{{ contact.city }}</td>
                 <td>{{ contact.job }}</td>
                 <td>
-                  <button class="btn btn-success" v-on:click="getId(contact.id)">Edit</button>
+                  <input type="button" class="btn btn-success" v-on:click="getContact(contact.id, contact.name, contact.email, contact.country, contact.city, contact.job)" value="Edit"></input>
                 </td>
               </tr>
             </table>
-            <input type="hidden" name="id" v-bind:value="setId()">
           </form>
 
 
@@ -113,11 +112,11 @@
                 <th>job</th>
               </tr>
               <tr>
-                <td><input type="text" value="<?php if(isset($name))echo $name; ?>"></td>
-                <td><input type="text" value="<?php if(isset($email)) echo $email; ?>"></td>
-                <td><input type="text" value="<?php if(isset($country)) echo $country; ?>"></td>
-                <td><input type="text" value="<?php if(isset($city)) echo $city; ?>"></td>
-                <td><input type="text" value="<?php if(isset($job)) echo $job; ?>"></td>
+                <td><input type="text" v-model="putName"></td>
+                <td><input type="text" v-model="putEmail"></td>
+                <td><input type="text" v-model="putCountry"></td>
+                <td><input type="text" v-model="putCity"></td>
+                <td><input type="text" v-model="putJob"></td>
               </tr>
             </table><!-- /.table -->
           </form>

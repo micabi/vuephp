@@ -2,6 +2,7 @@ new Vue({
   el: '#app',
   data() {
     return {
+      // 新規登録用
       id: 0,
       name: '',
       email: '',
@@ -10,7 +11,15 @@ new Vue({
       job: '',
       contacts: [
         // {"id":"1","name":"David","email":"david@example.com","city":"UK","country":"London","job":"Designer"}
-      ]
+      ],
+
+      // 更新用
+      putId: 0,
+      putName: '',
+      putEmail: '',
+      putCountry: '',
+      putCity: '',
+      putJob: ''
     }
   },
   mounted() {
@@ -49,6 +58,7 @@ new Vue({
       axios({
         method: 'post',
         url: 'contacts.php',
+        action: 'insert',
         data: formData,
         config: { headers: {'Content-Type': 'multipart/form-data' }}
       })
@@ -66,16 +76,25 @@ new Vue({
         });
     },
     // 更新
-    getId: function(id){
-      this.id = id;
-      // 取得したidのname,email...をセットする
-      // 何番目のインデックスに保存されたcontactか
-      // axios.get() // どこから?
-      //   .then()
-      //   .catch();
-    },
-    setId: function(){
-      return this.id;
+    getContact: function(id, name, email, country, city, job){
+      this.putId = id;
+      this.putName = name;
+      this.putEmail = email;
+      this.putCountry = country;
+      this.putCity = city;
+      this.putJob = job;
+
+      axios({
+        url: 'contacts.php',
+        method: "POST",
+        action: "update",
+      })
+      .then((response) => {
+        alert(`response: ${response.data.message}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     }
   }
 
