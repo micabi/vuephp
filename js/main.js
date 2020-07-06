@@ -60,7 +60,7 @@ new Vue({
         url: 'contacts.php',
         action: 'insert',
         data: formData,
-        config: { headers: {'Content-Type': 'multipart/form-data' }}
+        config: { headers: { 'Content-Type': 'multipart/form-data' } }
       })
         .then((response) => {
           console.log(response);
@@ -75,27 +75,42 @@ new Vue({
           console.log(error);
         });
     },
-    // 更新
-    getContact: function(id, name, email, country, city, job){
+    // 更新したいやつ取得
+    getContact: function (id, name, email, country, city, job) {
       this.putId = id;
       this.putName = name;
       this.putEmail = email;
       this.putCountry = country;
       this.putCity = city;
       this.putJob = job;
+    },
+    updateContact: function () {
 
       axios({
         url: 'contacts.php',
-        method: "POST",
-        action: "update",
+        method: 'post',
+        action: 'update',
+        id: this.putId,
+        name: this.putName,
+        email: this.putEmail,
+        country: this.putCountry,
+        city: this.putCity,
+        job: this.putJob
       })
-      .then((response) => {
-        alert(`response: ${response.data.message}`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((response) => {
+          console.log(`アップデート`);
+          console.log(`response.data: ${response.data}`); // 空！
+          // this.getContacts();
+          // this.putId = 0;
+          // this.putName = '';
+          // this.putEmail = '';
+          // this.putCountry = '';
+          // this.putCity = '';
+          // this.putJob = '';
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
-
 });

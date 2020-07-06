@@ -90,19 +90,19 @@
           <hr class="mt-4 mb-4">
 
           <!-- 新規登録 -->
-          <form method="post" action="">
+          <!-- <form method="post" action="">
             <label for="name">Name:<input type="text" name="name" id="name" v-model="name"></label><br>
             <label for="email">Email:<input type="text" name="email" id="email" v-model="email"></label><br>
             <label for="country">Country:<input type="text" name="country" id="country" v-model="country"></label><br>
             <label for="city">City:<input type="text" name="city" id="city" v-model="city"></label><br>
             <label for="job">Job:<input type="text" name="job" id="job" v-model="job"></label><br>
             <button class="btn btn-primary" v-on:click="postContact()">Add</button>
-          </form>
+          </form> -->
 
           <hr class="mt-4 mb-4">
 
           <!-- 更新 -->
-          <form action="" method="get">
+          <form action="" method="">
             <table class="table">
               <tr>
                 <th>name</th>
@@ -112,13 +112,16 @@
                 <th>job</th>
               </tr>
               <tr>
-                <td><input type="text" v-model="putName"></td>
-                <td><input type="text" v-model="putEmail"></td>
-                <td><input type="text" v-model="putCountry"></td>
-                <td><input type="text" v-model="putCity"></td>
-                <td><input type="text" v-model="putJob"></td>
+                <td><input type="text" name="name" v-model="putName"></td>
+                <td><input type="text" name="email" v-model="putEmail"></td>
+                <td><input type="text" name="country" v-model="putCountry"></td>
+                <td><input type="text" name="city" v-model="putCity"></td>
+                <td><input type="text" name="job" v-model="putJob"></td>
               </tr>
             </table><!-- /.table -->
+            <input type="hidden" name="id" v-model="putId">
+            <button class="btn btn-lightgray">cancel</button>
+            <input type="button" value="update" class="btn btn-success" v-on:click="updateContact()">
           </form>
 
         </div><!-- /.col-md-12 -->

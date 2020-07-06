@@ -1,7 +1,6 @@
 <?php
 
 try {
-
     $method = $_SERVER['REQUEST_METHOD'];
 
     switch ($method) { // リクエストタイプで分岐
@@ -48,39 +47,67 @@ try {
 
         case 'POST':
             $received_data = json_decode(file_get_contents("php://input"));
-            if($received_data->action === 'insert'){
 
-            // POSTされてきた値を変数に代入
-            $name = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
-            $email = htmlspecialchars($_POST["email"], ENT_QUOTES, 'UTF-8');
-            $country = htmlspecialchars($_POST["country"], ENT_QUOTES, 'UTF-8');
-            $city = htmlspecialchars($_POST["city"], ENT_QUOTES, 'UTF-8');
-            $job = htmlspecialchars($_POST["job"], ENT_QUOTES, 'UTF-8');
+            if ($received_data->action === 'insert') {
 
-            $pdo = new PDO("sqlite:vue.db");
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+                // POSTされてきた値を変数に代入
+                $name = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
+                $email = htmlspecialchars($_POST["email"], ENT_QUOTES, 'UTF-8');
+                $country = htmlspecialchars($_POST["country"], ENT_QUOTES, 'UTF-8');
+                $city = htmlspecialchars($_POST["city"], ENT_QUOTES, 'UTF-8');
+                $job = htmlspecialchars($_POST["job"], ENT_QUOTES, 'UTF-8');
 
-            // echo("接続成功");
-            $data = array();
+                $pdo = new PDO("sqlite:vue.db");
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-            $sql = "insert into contacts(name, email, country, city, job) values (?, ?, ?, ?, ?)";
-            $stmt = $pdo->prepare($sql);
-            $data[] = $name; // value*
-            $data[] = $email; // value**
-            $data[] = $country;
-            $data[] = $city;
-            $data[] = $job;
-            // var_dump($data);
-            $stmt->execute($data);
+                // echo("接続成功");
+                $data = array();
 
-            $pdo = null;
-            // 処理
-        }
+                $sql = "insert into contacts(name, email, country, city, job) values (?, ?, ?, ?, ?)";
+                $stmt = $pdo->prepare($sql);
+                $data[] = $name; // value*
+                $data[] = $email; // value**
+                $data[] = $country;
+                $data[] = $city;
+                $data[] = $job;
+                // var_dump($data);
+                $stmt->execute($data);
+
+                $pdo = null;
+                // 処理
+            }
+
+            if ($received_data->action === 'update') {
+
+                // POSTされてきた値を変数に代入
+
+                $pdo = new PDO("sqlite:vue.db");
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+                // echo("接続成功");
+
+                $sql = "update contacts set name = ?, email = ?, country = ?, city = ?, job = ? where id = ?";
+                $data[] = $received_data->name;
+                $data[] = $received_data->email;
+                $data[] = $received_data->country;
+                $data[] = $received_data->city;
+                $data[] = $received_data->job;
+                $data[] = $received_data->id;
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($data);
+
+                $pdo = null;
+
+                // 処理
+            }
         break;
     }
+
 } catch (PDOException $Exception) {
     echo($Exception->getMessage());
     echo("データベースサーバーがダウンしています。しばらく経ってから再度お試し下さい。");
     exit();
 }
+
