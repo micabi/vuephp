@@ -10,13 +10,8 @@ try {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-            // echo("接続成功");
-
             $sql = "select * from contacts where 1";
             $stmt = $pdo->prepare($sql);
-            // $data[] = ; // {column A} value *POST['']されてきたものをdata[]に入れる
-            // $data[] = ; // {column B} value
-            // $data[] = ; // {column C} value
             $stmt->execute(); // where 1ならdataは要らない。
 
             $pdo = null;
@@ -28,9 +23,7 @@ try {
                     break;
                 }
 
-                // var_dump($rec);
                 $data[] = $rec;
-                // var_dump($data);
                 // 処理 ここでrec['COLUMN-NAME']を、変数を作って代入する。
             }
 
@@ -38,7 +31,6 @@ try {
                 $data[$i]["id"] = intval($data[$i]["id"]);
             }
 
-            // var_dump($data);
             $data = json_encode($data);
             header("Access-Control-Allow-Origin: *");
             header("Content-Type: application/json; charset=utf-8");
@@ -81,6 +73,24 @@ try {
             if ($received_data->action === 'update') {
 
                 // POSTされてきた値を変数に代入
+                // $received_data = json_decode($received_data, true); // jsonを連想配列に変換
+                // $id = htmlspecialchars($_POST["id"], ENT_QUOTES, 'UTF-8');
+                // $name = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
+                // $email = htmlspecialchars($_POST["email"], ENT_QUOTES, 'UTF-8');
+                // $country = htmlspecialchars($_POST["country"], ENT_QUOTES, 'UTF-8');
+                // $city = htmlspecialchars($_POST["city"], ENT_QUOTES, 'UTF-8');
+                // $job = htmlspecialchars($_POST["job"], ENT_QUOTES, 'UTF-8');
+
+                // $received_data = json_decode($received_data, true);
+
+                $data = array(
+                    "id" => $received_data->id,
+                    "name" => $received_data->name,
+                    "email" => $received_data->email,
+                    "country" => $received_data->country,
+                    "city" => $received_data->city,
+                    "job" => $received_data->job
+                );
 
                 $pdo = new PDO("sqlite:vue.db");
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -88,20 +98,19 @@ try {
 
                 // echo("接続成功");
 
-                $sql = "update contacts set name = ?, email = ?, country = ?, city = ?, job = ? where id = ?";
-                $data[] = $received_data->name;
-                $data[] = $received_data->email;
-                $data[] = $received_data->country;
-                $data[] = $received_data->city;
-                $data[] = $received_data->job;
-                $data[] = $received_data->id;
+                $sql = 'update contacts set name = $data["name"], email = $data["email"], country = $data["country"], city = $data["city"], job = $data["job"] where id = $data["id"]';
+                // $data[] = $received_data->id;
+                // $data[] = $received_data->name;
+                // $data[] = $received_data->email;
+                // $data[] = $received_data->country;
+                // $data[] = $received_data->city;
+                // $data[] = $received_data->job;
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute($data);
 
                 $pdo = null;
 
-                // 処理
-            }
+                }
         break;
     }
 

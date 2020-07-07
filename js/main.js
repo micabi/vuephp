@@ -30,7 +30,7 @@ new Vue({
     getContacts: function () {
       axios.get('contacts.php')
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.contacts = response.data;
           // console.log(this.contacts[0].id);
         })
@@ -53,7 +53,7 @@ new Vue({
         contact[key] = value;
       });
 
-      console.log(contact);
+      // console.log(contact);
 
       axios({
         method: 'post',
@@ -75,6 +75,7 @@ new Vue({
           console.log(error);
         });
     },
+
     // 更新したいやつ取得
     getContact: function (id, name, email, country, city, job) {
       this.putId = id;
@@ -84,12 +85,25 @@ new Vue({
       this.putCity = city;
       this.putJob = job;
     },
+
+    // 更新post
     updateContact: function () {
+      axios.interceptors.request.use(request => {
+        console.log('Starting Request: ', request)
+        return request
+      });
+
+      axios.interceptors.response.use(response => {
+        console.log('Response: ', response)
+        return response
+      });
 
       axios({
         url: 'contacts.php',
         method: 'post',
         action: 'update',
+        // data: postItem,
+        // config: { headers: { 'Content-Type': 'multipart/form-data' } }
         id: this.putId,
         name: this.putName,
         email: this.putEmail,
@@ -99,14 +113,14 @@ new Vue({
       })
         .then((response) => {
           console.log(`アップデート`);
-          console.log(`response.data: ${response.data}`); // 空！
-          // this.getContacts();
-          // this.putId = 0;
-          // this.putName = '';
-          // this.putEmail = '';
-          // this.putCountry = '';
-          // this.putCity = '';
-          // this.putJob = '';
+          // console.log(response); // 空！
+          this.getContacts();
+          this.putId = 0;
+          this.putName = '';
+          this.putEmail = '';
+          this.putCountry = '';
+          this.putCity = '';
+          this.putJob = '';
         })
         .catch((error) => {
           console.log(error);
