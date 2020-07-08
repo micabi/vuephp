@@ -96,7 +96,7 @@
             <label for="country">Country:<input type="text" id="country" v-model="country"></label><br>
             <label for="city">City:<input type="text" id="city" v-model="city"></label><br>
             <label for="job">Job:<input type="text" id="job" v-model="job"></label><br>
-            <button class="btn btn-primary" v-on:click="postContact()">Add</button>
+            <button type="button" class="btn btn-primary" v-on:click="postContact()">Add</button>
           </form>
 
           <hr class="mt-4 mb-4">

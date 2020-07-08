@@ -41,12 +41,13 @@ new Vue({
     // 新規追加
     postContact: function () {
 
-      let formData = new FormData();
-      formData.append('name', this.name);
-      formData.append('email', this.email);
-      formData.append('country', this.country);
-      formData.append('city', this.city);
-      formData.append('job', this.job);
+      let postData = new URLSearchParams();
+      postData.append('action', 'insert');
+      postData.append('name', this.name);
+      postData.append('email', this.email);
+      postData.append('country', this.country);
+      postData.append('city', this.city);
+      postData.append('job', this.job);
 
       // let contact = {}; // 1つ1つのデータ
       // formData.forEach((key, value) => {
@@ -55,15 +56,9 @@ new Vue({
 
       // console.log(contact);
 
-      axios({
-        method: 'post',
-        url: 'contacts.php',
-        action: 'insert',
-        data: formData,
-        config: { headers: { 'Content-Type': 'multipart/form-data' } }
-      })
+      axios.post('contacts.php', postData)
         .then((response) => {
-          console.log(`insert data: ${response.data}`);
+          console.log(`ゲット: ${response.data}`);
           // this.contacts.push(contact);
           this.getContacts();
           this.name = ''; // 空にする
@@ -99,20 +94,18 @@ new Vue({
         return response
       });
 
-      axios({
-        url: 'contacts.php',
-        method: 'post',
-        action: 'update',
-        id: this.putId,
-        name: this.putName,
-        email: this.putEmail,
-        country: this.putCountry,
-        city: this.putCity,
-        job: this.putJob
-      })
+      let postData = new URLSearchParams();
+      postData.append('action', 'update');
+      postData.append('id', this.putId);
+      postData.append('name', this.putName);
+      postData.append('email', this.putEmail);
+      postData.append('country', this.putCountry);
+      postData.append('city', this.putCity);
+      postData.append('job', this.putJob);
+
+      axios.post('contacts.php', postData)
         .then((response) => {
-          console.log(`アップデート`);
-          // console.log(response); // 空！
+          // console.log(response.data); // 空！
           this.getContacts();
           this.putId = 0;
           this.putName = '';

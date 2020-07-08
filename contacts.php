@@ -38,10 +38,10 @@ try {
         break;
 
         case 'POST':
-            // jsonを連想配列に変換
-            $received_data = json_decode(file_get_contents("php://input"), true);
+            $action = $_POST['action'];
+            print_r($action);
 
-            if ($received_data['action'] === 'insert') {
+            if ($action === 'insert') {
 
                 // POSTされてきた値を変数に代入
                 $name = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
@@ -71,15 +71,15 @@ try {
                 // 処理
             }
 
-            if ($received_data['action'] === 'update') {
+            if ($action === 'update') {
 
                 // POSTされてきた値を変数に代入
-                $id = htmlspecialchars($received_data['id'] , ENT_QUOTES, 'UTF-8');
-                $name = htmlspecialchars($received_data['name'] , ENT_QUOTES, 'UTF-8');
-                $email = htmlspecialchars($received_data['email'] , ENT_QUOTES, 'UTF-8');
-                $country = htmlspecialchars($received_data['country'] , ENT_QUOTES, 'UTF-8');
-                $city = htmlspecialchars($received_data['city'] , ENT_QUOTES, 'UTF-8');
-                $job = htmlspecialchars($received_data['job'] , ENT_QUOTES, 'UTF-8');
+                $id = $_POST['id'];
+                $name = htmlspecialchars($_POST['name'] , ENT_QUOTES, 'UTF-8');
+                $email = htmlspecialchars($_POST['email'] , ENT_QUOTES, 'UTF-8');
+                $country = htmlspecialchars($_POST['country'] , ENT_QUOTES, 'UTF-8');
+                $city = htmlspecialchars($_POST['city'] , ENT_QUOTES, 'UTF-8');
+                $job = htmlspecialchars($_POST['job'] , ENT_QUOTES, 'UTF-8');
 
                 $pdo = new PDO("sqlite:vue.db");
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -88,12 +88,12 @@ try {
                 // echo("接続成功");
 
                 $sql = 'update contacts set name = ?, email = ?, country = ?, city = ?, job = ? where id = ?';
-                $data[] = $id;
                 $data[] = $name;
                 $data[] = $email;
                 $data[] = $country;
                 $data[] = $city;
                 $data[] = $job;
+                $data[] = $id;
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute($data);
 
