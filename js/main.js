@@ -48,10 +48,10 @@ new Vue({
       formData.append('city', this.city);
       formData.append('job', this.job);
 
-      let contact = {}; // 1つ1つのデータ
-      formData.forEach((key, value) => {
-        contact[key] = value;
-      });
+      // let contact = {}; // 1つ1つのデータ
+      // formData.forEach((key, value) => {
+      //   contact[key] = value;
+      // });
 
       // console.log(contact);
 
@@ -63,8 +63,9 @@ new Vue({
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
       })
         .then((response) => {
-          console.log(response);
-          this.contacts.push(contact);
+          console.log(`insert data: ${response.data}`);
+          // this.contacts.push(contact);
+          this.getContacts();
           this.name = ''; // 空にする
           this.email = '';
           this.country = '';
@@ -102,8 +103,6 @@ new Vue({
         url: 'contacts.php',
         method: 'post',
         action: 'update',
-        // data: postItem,
-        // config: { headers: { 'Content-Type': 'multipart/form-data' } }
         id: this.putId,
         name: this.putName,
         email: this.putEmail,

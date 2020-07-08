@@ -80,7 +80,7 @@
                 <td>{{ contact.city }}</td>
                 <td>{{ contact.job }}</td>
                 <td>
-                  <input type="button" class="btn btn-success" v-on:click="getContact(contact.id, contact.name, contact.email, contact.country, contact.city, contact.job)" value="Edit"></input>
+                  <button type="button" class="btn btn-success" v-on:click="getContact(contact.id, contact.name, contact.email, contact.country, contact.city, contact.job)">Edit</button>
                 </td>
               </tr>
             </table>
@@ -90,14 +90,14 @@
           <hr class="mt-4 mb-4">
 
           <!-- 新規登録 -->
-          <!-- <form method="post" action="">
-            <label for="name">Name:<input type="text" name="name" id="name" v-model="name"></label><br>
-            <label for="email">Email:<input type="text" name="email" id="email" v-model="email"></label><br>
-            <label for="country">Country:<input type="text" name="country" id="country" v-model="country"></label><br>
-            <label for="city">City:<input type="text" name="city" id="city" v-model="city"></label><br>
-            <label for="job">Job:<input type="text" name="job" id="job" v-model="job"></label><br>
+          <form method="" action="">
+            <label for="name">Name:<input type="text" id="name" v-model="name"></label><br>
+            <label for="email">Email:<input type="text" id="email" v-model="email"></label><br>
+            <label for="country">Country:<input type="text" id="country" v-model="country"></label><br>
+            <label for="city">City:<input type="text" id="city" v-model="city"></label><br>
+            <label for="job">Job:<input type="text" id="job" v-model="job"></label><br>
             <button class="btn btn-primary" v-on:click="postContact()">Add</button>
-          </form> -->
+          </form>
 
           <hr class="mt-4 mb-4">
 
