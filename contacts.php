@@ -81,8 +81,6 @@ try {
                 $city = htmlspecialchars($received_data['city'] , ENT_QUOTES, 'UTF-8');
                 $job = htmlspecialchars($received_data['job'] , ENT_QUOTES, 'UTF-8');
 
-                echo $name;
-
                 $pdo = new PDO("sqlite:vue.db");
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
