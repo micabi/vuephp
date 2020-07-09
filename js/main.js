@@ -26,6 +26,7 @@ new Vue({
     this.getContacts();
   },
   methods: {
+
     // 一覧取得
     getContacts: function () {
       axios.get('contacts.php')
@@ -38,38 +39,47 @@ new Vue({
           console.log(error);
         });
     },
+
     // 新規追加
     postContact: function () {
 
-      let postData = new URLSearchParams();
-      postData.append('action', 'insert');
-      postData.append('name', this.name);
-      postData.append('email', this.email);
-      postData.append('country', this.country);
-      postData.append('city', this.city);
-      postData.append('job', this.job);
+      if (this.name != '' || this.email != '' || this.country != '' || this.city != '' || this.job != '') {
 
-      // let contact = {}; // 1つ1つのデータ
-      // formData.forEach((key, value) => {
-      //   contact[key] = value;
-      // });
+        let postData = new URLSearchParams();
+        postData.append('action', 'insert');
+        postData.append('name', this.name);
+        postData.append('email', this.email);
+        postData.append('country', this.country);
+        postData.append('city', this.city);
+        postData.append('job', this.job);
 
-      // console.log(contact);
+        axios.post('contacts.php', postData)
+          .then((response) => {
+            console.log(`ゲット: ${response.data}`);
+            this.getContacts();
+            this.name = ''; // 空にする
+            this.email = '';
+            this.country = '';
+            this.city = '';
+            this.job = '';
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
-      axios.post('contacts.php', postData)
-        .then((response) => {
-          console.log(`ゲット: ${response.data}`);
-          // this.contacts.push(contact);
-          this.getContacts();
-          this.name = ''; // 空にする
-          this.email = '';
-          this.country = '';
-          this.city = '';
-          this.job = '';
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      } else {
+        alert("未入力の項目があります。");
+        return;
+      }
+    },
+
+    // キャンセル
+    cancelPost: function () {
+      this.name = ''; // 空にする
+      this.email = '';
+      this.country = '';
+      this.city = '';
+      this.job = '';
     },
 
     // 更新したいやつ取得
@@ -103,20 +113,37 @@ new Vue({
       postData.append('city', this.putCity);
       postData.append('job', this.putJob);
 
-      axios.post('contacts.php', postData)
-        .then((response) => {
-          // console.log(response.data); // 空！
-          this.getContacts();
-          this.putId = 0;
-          this.putName = '';
-          this.putEmail = '';
-          this.putCountry = '';
-          this.putCity = '';
-          this.putJob = '';
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (this.putName != '' || this.putEmail != '' || this.putCountry != '' || this.putCity != '' || this.putJob != '') {
+        axios.post('contacts.php', postData)
+          .then((response) => {
+            // console.log(response.data); // 空！
+            this.getContacts();
+            this.putId = 0;
+            this.putName = '';
+            this.putEmail = '';
+            this.putCountry = '';
+            this.putCity = '';
+            this.putJob = '';
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        alert("未入力の項目があります。");
+        return;
+      }
+    },
+
+    // 更新キャンセル
+    cancelUpdate: function () {
+      this.putId = 0;
+      this.putName = '';
+      this.putEmail = '';
+      this.putCountry = '';
+      this.putCity = '';
+      this.putJob = '';
     }
+
+
   }
 });

@@ -63,7 +63,8 @@
         <div class="col-md-12">
 
           <!-- 一覧 -->
-          <form action="" method="">
+          <h3>Lists</h3>
+          <form>
             <table class="table">
               <tr>
                 <th>Name</th>
@@ -90,19 +91,22 @@
           <hr class="mt-4 mb-4">
 
           <!-- 新規登録 -->
-          <form method="" action="">
+          <h3>Register</h3>
+          <form>
             <label for="name">Name:<input type="text" id="name" v-model="name"></label><br>
             <label for="email">Email:<input type="text" id="email" v-model="email"></label><br>
             <label for="country">Country:<input type="text" id="country" v-model="country"></label><br>
             <label for="city">City:<input type="text" id="city" v-model="city"></label><br>
             <label for="job">Job:<input type="text" id="job" v-model="job"></label><br>
+            <button class="btn btn-lightgray" v-on:click="cancelPost()">Cancel</button>
             <button type="button" class="btn btn-primary" v-on:click="postContact()">Add</button>
           </form>
 
           <hr class="mt-4 mb-4">
 
           <!-- 更新 -->
-          <form action="" method="">
+          <h3>Update</h3>
+          <form>
             <table class="table">
               <tr>
                 <th>name</th>
@@ -120,7 +124,7 @@
               </tr>
             </table><!-- /.table -->
             <input type="hidden" name="id" v-model="putId">
-            <button class="btn btn-lightgray">cancel</button>
+            <button class="btn btn-lightgray" v-on:click="cancelUpdate()">Cancel</button>
             <input type="button" value="update" class="btn btn-success" v-on:click="updateContact()">
           </form>
 
