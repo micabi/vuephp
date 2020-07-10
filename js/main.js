@@ -2,6 +2,7 @@ new Vue({
   el: '#app',
   data() {
     return {
+
       // 新規登録用
       id: 0,
       name: '',
@@ -21,8 +22,8 @@ new Vue({
       putCity: '',
       putJob: '',
 
-      // バリデーション
-      validation: false
+      // 削除用
+      deleteId: 0
     }
   },
   mounted() {
@@ -148,7 +149,7 @@ new Vue({
       this.putJob = '';
     },
 
-    // バリデーション
+    // 更新バリデーション
     updateCheckForm: function (e) {
 
       if (!this.putName || !this.putEmail || !this.putCountry || !this.putCity || !this.putJob) {
@@ -159,6 +160,24 @@ new Vue({
       }
 
       e.preventDefault();
+    },
+
+    // 削除
+    deleteContact: function(id){
+      this.deleteId = id;
+
+      let postData = new URLSearchParams();
+      postData.append('action', 'delete');
+      postData.append('id', this.deleteId);
+
+      axios.post('contacts.php', postData)
+      .then((response) => {
+        this.getContacts();
+        this.deleteId = 0;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     }
 
   }

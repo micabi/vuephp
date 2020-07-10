@@ -86,6 +86,7 @@ try {
                 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
                 // echo("接続成功");
+                $data = array();
 
                 $sql = 'update contacts set name = ?, email = ?, country = ?, city = ?, job = ? where id = ?';
                 $data[] = $name;
@@ -99,7 +100,25 @@ try {
 
                 $pdo = null;
 
-                }
+            }
+
+            if($action === 'delete'){
+
+                $id = $_POST['id'];
+                $pdo = new PDO("sqlite:vue.db");
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+                // echo("接続成功");
+                $data = array();
+
+                $sql = 'delete from contacts where id = ?';
+                $data[] = $id;
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($data);
+
+                $pdo = null;
+            }
         break;
     }
 

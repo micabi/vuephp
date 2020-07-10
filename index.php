@@ -11,15 +11,16 @@
 <body>
 
   <div id="app">
-    <div class="container">
+    <div class="container mt-4 mb-4">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8 mx-auto">
 
           <!-- 一覧 -->
           <h3>Lists</h3>
           <form>
             <table class="table">
               <tr>
+                <th>Number</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Country</th>
@@ -28,7 +29,8 @@
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
-              <tr v-for="contact in contacts" v-bind:key="contact.id">
+              <tr v-for="(contact, num) in contacts" v-bind:key="contact.id">
+                <td>{{ num+1 }}</td>
                 <td>{{ contact.name }}</td>
                 <td>{{ contact.email }}</td>
                 <td>{{ contact.country }}</td>
@@ -38,7 +40,7 @@
                   <button type="button" class="btn btn-success" v-on:click="getContact(contact.id, contact.name, contact.email, contact.country, contact.city, contact.job)">Edit</button>
                 </td>
                 <td>
-                  <a class="btn btn-lightgray">Delete</a>
+                  <button type="button" class="btn btn-lightgray" v-on:click="deleteContact(contact.id)">Delete</button>
                 </td>
               </tr>
             </table>
@@ -51,7 +53,7 @@
           <h3>Register</h3>
           <form v-on:submit.prevent="postCheckForm()">
             <table class="table">
-            <tr>
+              <tr>
                 <th>name</th>
                 <th>email</th>
                 <th>country</th>
@@ -96,7 +98,7 @@
             <button class="btn btn-success">Update</button>
           </form>
 
-        </div><!-- /.col-md-12 -->
+        </div><!-- /.col-md-8 -->
       </div><!-- /.row -->
     </div><!-- /.container -->
   </div><!-- /#app -->
