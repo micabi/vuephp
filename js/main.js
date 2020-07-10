@@ -47,39 +47,37 @@ new Vue({
     // 新規追加
     postContact: function () {
 
-        let postData = new URLSearchParams();
-        postData.append('action', 'insert');
-        postData.append('name', this.name);
-        postData.append('email', this.email);
-        postData.append('country', this.country);
-        postData.append('city', this.city);
-        postData.append('job', this.job);
+      let postData = new URLSearchParams();
+      postData.append('action', 'insert');
+      postData.append('name', this.name);
+      postData.append('email', this.email);
+      postData.append('country', this.country);
+      postData.append('city', this.city);
+      postData.append('job', this.job);
 
-        axios.post('contacts.php', postData)
-          .then((response) => {
-            console.log(`ゲット: ${response.data}`);
-            this.getContacts();
-            this.name = ''; // 空にする
-            this.email = '';
-            this.country = '';
-            this.city = '';
-            this.job = '';
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+      axios.post('contacts.php', postData)
+        .then((response) => {
+          console.log(`ゲット: ${response.data}`);
+          this.getContacts();
+          this.name = ''; // 空にする
+          this.email = '';
+          this.country = '';
+          this.city = '';
+          this.job = '';
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     // 新規追加バリデーション
-    postCheckForm: function(e){
-      if(!this.name || !this.email || !this.country || !this.city || !this.job){
-       alert("未記入の項目があります。");
-      return false;
-    }else{
-      this.postContact();
-    }
-
-      e.preventDefault();
+    postCheckForm: function () {
+      if (!this.name || !this.email || !this.country || !this.city || !this.job) {
+        alert("未記入の項目があります。");
+        return false;
+      } else {
+        this.postContact();
+      }
     },
 
     // 新規追加キャンセル
@@ -150,20 +148,18 @@ new Vue({
     },
 
     // 更新バリデーション
-    updateCheckForm: function (e) {
+    updateCheckForm: function () {
 
       if (!this.putName || !this.putEmail || !this.putCountry || !this.putCity || !this.putJob) {
         alert("未記入の項目があります。");
         return false;
-      }else{
+      } else {
         this.updateContact();
       }
-
-      e.preventDefault();
     },
 
     // 削除
-    deleteContact: function(id){
+    deleteContact: function (id) {
       this.deleteId = id;
 
       let postData = new URLSearchParams();
@@ -171,13 +167,13 @@ new Vue({
       postData.append('id', this.deleteId);
 
       axios.post('contacts.php', postData)
-      .then((response) => {
-        this.getContacts();
-        this.deleteId = 0;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((response) => {
+          this.getContacts();
+          this.deleteId = 0;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
   }
