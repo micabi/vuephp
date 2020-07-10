@@ -19,7 +19,10 @@ new Vue({
       putEmail: '',
       putCountry: '',
       putCity: '',
-      putJob: ''
+      putJob: '',
+
+      // バリデーション
+      validation: false
     }
   },
   mounted() {
@@ -43,8 +46,6 @@ new Vue({
     // 新規追加
     postContact: function () {
 
-      if (this.name != '' || this.email != '' || this.country != '' || this.city != '' || this.job != '') {
-
         let postData = new URLSearchParams();
         postData.append('action', 'insert');
         postData.append('name', this.name);
@@ -66,14 +67,21 @@ new Vue({
           .catch((error) => {
             console.log(error);
           });
-
-      } else {
-        alert("未入力の項目があります。");
-        return;
-      }
     },
 
-    // キャンセル
+    // 新規追加バリデーション
+    postCheckForm: function(e){
+      if(!this.name || !this.email || !this.country || !this.city || !this.job){
+       alert("未記入の項目があります。");
+      return false;
+    }else{
+      this.postContact();
+    }
+
+      e.preventDefault();
+    },
+
+    // 新規追加キャンセル
     cancelPost: function () {
       this.name = ''; // 空にする
       this.email = '';
@@ -113,25 +121,21 @@ new Vue({
       postData.append('city', this.putCity);
       postData.append('job', this.putJob);
 
-      if (this.putName != '' || this.putEmail != '' || this.putCountry != '' || this.putCity != '' || this.putJob != '') {
-        axios.post('contacts.php', postData)
-          .then((response) => {
-            // console.log(response.data); // 空！
-            this.getContacts();
-            this.putId = 0;
-            this.putName = '';
-            this.putEmail = '';
-            this.putCountry = '';
-            this.putCity = '';
-            this.putJob = '';
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        alert("未入力の項目があります。");
-        return;
-      }
+
+      axios.post('contacts.php', postData)
+        .then((response) => {
+          // console.log(response.data); // 空！
+          this.getContacts();
+          this.putId = 0;
+          this.putName = '';
+          this.putEmail = '';
+          this.putCountry = '';
+          this.putCity = '';
+          this.putJob = '';
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     // 更新キャンセル
@@ -142,8 +146,20 @@ new Vue({
       this.putCountry = '';
       this.putCity = '';
       this.putJob = '';
-    }
+    },
 
+    // バリデーション
+    updateCheckForm: function (e) {
+
+      if (!this.putName || !this.putEmail || !this.putCountry || !this.putCity || !this.putJob) {
+        alert("未記入の項目があります。");
+        return false;
+      }else{
+        this.updateContact();
+      }
+
+      e.preventDefault();
+    }
 
   }
 });

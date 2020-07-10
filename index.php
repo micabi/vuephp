@@ -1,50 +1,3 @@
-<?php
-
-    // $_POST[''] or $_GET[''] で値の受け取り
-    if (isset($_GET['id'])) {
-        $id = htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8');
-
-        try {
-            $pdo = new PDO("sqlite:vue.db");
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-
-            // echo("接続成功");
-            $data = array();
-            $name = '';
-            $email = '';
-            $country = '';
-            $job= '';
-            $sql = "select name, email, country, city, job from contacts where id = ?";
-            $stmt = $pdo->prepare($sql);
-            $data[] = $id; // {column A} value *POST['']されてきたものをdata[]に入れる
-          // $data[] = ; // {column B} value
-          // $data[] = ; // {column C} value
-          $stmt->execute($data); // where 1ならdataは要らない。
-
-          $pdo = null;
-
-            while ($stmt == true) {
-                $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-                if ($rec == false) {
-                    break;
-                }
-
-                // 処理 ここでrec['COLUMN-NAME']を、変数を作って代入する。
-                $name = $rec['name'];
-                $email = $rec['email'];
-                $country = $rec['country'];
-                $city = $rec['city'];
-                $job = $rec['job'];
-            }
-        } catch (PDOException $Exception) {
-            echo($Exception->getMessage());
-            echo("データベースサーバーがダウンしています。しばらく経ってから再度お試し下さい。");
-            exit();
-        }
-    }
-
-?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -73,6 +26,7 @@
                 <th>City</th>
                 <th>Job</th>
                 <th>Edit</th>
+                <th>Delete</th>
               </tr>
               <tr v-for="contact in contacts" v-bind:key="contact.id">
                 <td>{{ contact.name }}</td>
@@ -83,6 +37,9 @@
                 <td>
                   <button type="button" class="btn btn-success" v-on:click="getContact(contact.id, contact.name, contact.email, contact.country, contact.city, contact.job)">Edit</button>
                 </td>
+                <td>
+                  <a class="btn btn-lightgray">Delete</a>
+                </td>
               </tr>
             </table>
           </form>
@@ -92,21 +49,32 @@
 
           <!-- 新規登録 -->
           <h3>Register</h3>
-          <form>
-            <label for="name">Name:<input type="text" id="name" v-model="name"></label><br>
-            <label for="email">Email:<input type="text" id="email" v-model="email"></label><br>
-            <label for="country">Country:<input type="text" id="country" v-model="country"></label><br>
-            <label for="city">City:<input type="text" id="city" v-model="city"></label><br>
-            <label for="job">Job:<input type="text" id="job" v-model="job"></label><br>
-            <button class="btn btn-lightgray" v-on:click="cancelPost()">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="postContact()">Add</button>
+          <form v-on:submit.prevent="postCheckForm()">
+            <table class="table">
+            <tr>
+                <th>name</th>
+                <th>email</th>
+                <th>country</th>
+                <th>city</th>
+                <th>job</th>
+              </tr>
+              <tr>
+                <td><input type="text" v-model="name"></td>
+                <td><input type="email" v-model="email"></td>
+                <td><input type="text" v-model="country"></td>
+                <td><input type="text" v-model="city"></td>
+                <td><input type="text" v-model="job"></td>
+              </tr>
+            </table>
+            <a class="btn btn-lightgray" v-on:click="cancelPost()">Cancel</a>
+            <button class="btn btn-primary">Add</button>
           </form>
 
           <hr class="mt-4 mb-4">
 
           <!-- 更新 -->
           <h3>Update</h3>
-          <form>
+          <form v-on:submit.prevent="updateCheckForm()">
             <table class="table">
               <tr>
                 <th>name</th>
@@ -124,8 +92,8 @@
               </tr>
             </table><!-- /.table -->
             <input type="hidden" name="id" v-model="putId">
-            <button class="btn btn-lightgray" v-on:click="cancelUpdate()">Cancel</button>
-            <input type="button" value="update" class="btn btn-success" v-on:click="updateContact()">
+            <a class="btn btn-lightgray" v-on:click="cancelUpdate()">Cancel</a>
+            <button class="btn btn-success">Update</button>
           </form>
 
         </div><!-- /.col-md-12 -->
